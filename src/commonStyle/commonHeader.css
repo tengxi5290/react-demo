@@ -1,0 +1,35 @@
+.mleft {
+	margin-left: 25px;
+}
+
+.common-header {
+	height: 64px;
+	background-color: lightcyan;
+}
+
+.site-logo {
+	margin-top: 8px;
+}
+
+.header-list {
+	margin-top: 12px;
+	-webkit-padding-start: 0;
+	height: 36px;
+	line-height: 36px;
+}
+
+.header-list::after {
+	content: '';
+	display: block;
+	clear: both;
+}
+
+.list-item {
+	float: left;
+	list-style-type: none;
+}
+
+.profile img {
+	margin-right: 10px;
+	vertical-align: middle;
+}
