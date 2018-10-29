@@ -1,19 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import * as serviceWorker from './serviceWorker'
 import {
   BrowserRouter as Router,
   Route,
   Link
-} from 'react-router-dom';
-import 'element-theme-default';
-import {Button, Layout, Menu, Dropdown} from 'element-react';
-import './commonStyle/commonHeader.css';
+} from 'react-router-dom'
+import 'element-theme-default'
+import {Layout, Menu, MessageBox} from 'element-react'
 
-import Users from './components/view/user/users.js';
-import Role from './components/view/user/role.js';
-import Bread from './components/common/bread.js';
+import Users from './components/view/user/users.js'
+import Role from './components/view/user/role.js'
+import Bread from './components/common/bread.js'
+import Drop from './components/common/dropDown.js'
+
+import ContentList from './components/view/content/channel.js'
+
+import ChannelList from './components/view/channel/list.js'
+
+import {axiosProxy} from './tool.js'
+import api from './api.js'
+
+
+import './commonStyle/commonHeader.css'
+import './index.css'
+import './commonStyle/font.css'
 
 class BasicView extends React.Component {
 	command (value) {
@@ -22,11 +33,95 @@ class BasicView extends React.Component {
 		window.location.reload()
 	}
 
+	getUserInfo () {
+		axiosProxy.get(api.user).then (res => {
+			if(res.data.errorCode === 0) {
+				let userName = res.data.data.userName
+				let userAvatar = res.data.data.headShot
+				this.setState ({
+					userName: userName,
+					userAvatar: userAvatar
+				})
+				this.getUserSitesList()
+			} else {
+				if(res.data.errorMessage) {
+					console.log('这里提示默认的错误信息')
+				} else {
+					console.log('这里提示自定义的错误信息')
+				}
+			}
+		}).catch(error => {
+			console.log(error)
+		})
+	}
+
+	getUserSitesList () {
+		axiosProxy.get(api.siteList).then(res => {
+			if(res.data.errorCode === 0) {
+				let sites = res.data.data
+				this.setState ({
+					siteLists: sites
+				})
+			} else {
+				if(res.data.errorMessage) {
+					console.log('这里提示默认的错误信息')
+				} else {
+					console.log('这里提示自定义的错误信息')
+				}
+			}
+		}).catch (error => {
+			console.log(error)
+		})
+	}
+
+	getSiteDetail (siteId) {
+		axiosProxy.get(api.siteDetail + '/' + siteId).then( res => {
+			if(res.data.errorCode === 0) {
+				let currentLogo = res.data.data.logo
+				this.setState ({
+					siteLogo: currentLogo
+				})
+			} else {
+				if(res.data.errorMessage) {
+					console.log('这里提示默认的错误信息')
+				} else {
+					console.log('这里提示自定义的错误信息')
+				}
+			}
+		}).catch( error => {
+			console.log(error)
+		})
+	}
+
 	componentDidMount () {
+		let siteId = window.localStorage.getItem('currentSite')
+		this.getUserInfo()
+		this.getSiteDetail(siteId)
 		var menu = document.getElementById('side-menu').firstChild
 		ReactDOM.findDOMNode(menu).style.height = 'calc(100vh - 64px)'
-		// this.props.history.push("/")
 	}
+
+	logout () {
+		MessageBox.confirm('确定退出吗？', '提示', {
+		    type: 'warning'
+		}).then(() => {
+		    window.localStorage.clear()
+		    window.open('http://cms.cnlive.com:8768/logout', '_self')
+		}).catch(() => {
+		    console.log('已取消')
+	  	})
+	}
+
+	constructor(props) {
+  		super(props)
+
+  		this.state = {
+  			siteLogo: '',
+  			siteLists: [],
+  			userName: '测试姓名',
+  			userAvatar: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1540287846124&di=566d8eab6d5a6c9183efc573fad0bd05&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F014a6658f7a3f0a8012049ef33fb57.jpg%401280w_1l_2o_100sh.png'
+  		}
+  	}
 
 	render () {
 		return (
@@ -37,9 +132,7 @@ class BasicView extends React.Component {
 							<Layout.Row>
 						        <Layout.Col span="4" offset="1"><div className="grid-content bg-purple">
 						        	<Router>
-							        	<Link to="/">
-							        		<img src="http://www.pptbz.com/pptpic/UploadFiles_6909/201211/2012111719294197.jpg" alt="" width="48" height="48" className="site-logo" />
-							        	</Link>
+							        	<img src={this.state.siteLogo} alt="" width="autos" height="48" className="site-logo" />
 						        	</Router>
 						        </div></Layout.Col>
 						        <Layout.Col span="5" offset="13"><div className="grid-content bg-purple">
@@ -47,31 +140,19 @@ class BasicView extends React.Component {
 					        		<ul className="header-list">
 					        			<li className="list-item">
 					        				<div className="profile">
-						        				<img src="http://www.pptbz.com/pptpic/UploadFiles_6909/201211/2012111719294197.jpg" alt="" width="36" height="36" />
-						        				<span>藤西</span>
+						        				<img src={this.state.userAvatar} alt="" width="36" height="36" />
+						        				<span>{this.state.userName}</span>
 						        			</div>
 					        			</li>
 
-					        			<li className="list-item mleft"><Router><Link to="/user"><i className="el-icon-message"></i></Link></Router></li>
+					        			<li className="list-item mleft cursorHand"><i className="iconfont tx-gerenzhongxin"></i></li>
 
-					        			<li className="list-item mleft"><Router><Link to="/logout"><i className="el-icon-setting"></i></Link></Router></li>
+					        			<li className="list-item mleft cursorHand" onClick={ this.logout }><i className="iconfont tx-084tuichu"></i></li>
 
-					        			<li className="list-item mleft"><Router><Link to="/preview"><i className="el-icon-menu"></i></Link></Router></li>
+					        			<li className="list-item mleft cursorHand"><i className="iconfont tx-liulanqi-IE"></i></li>
 
 					        			<li className="list-item mleft">
-					        				<Dropdown menu={(
-											    <Dropdown.Menu>
-											        <Dropdown.Item command="黄金糕">黄金糕</Dropdown.Item>
-											        <Dropdown.Item command="狮子头">狮子头</Dropdown.Item>
-											        <Dropdown.Item command="螺蛳粉">螺蛳粉</Dropdown.Item>
-											        <Dropdown.Item command="双皮奶">双皮奶</Dropdown.Item>
-											        <Dropdown.Item command="蚵仔煎">蚵仔煎</Dropdown.Item>
-											      </Dropdown.Menu>
-											    )} onCommand={this.command.bind(this)}>
-											    <span className="el-dropdown-link">
-											        下拉菜单<i className="el-icon-caret-bottom el-icon--right"></i>
-											    </span>
-										    </Dropdown>
+					        				<Drop/>
 					        			</li>
 					        		</ul>
 
@@ -123,6 +204,8 @@ class BasicView extends React.Component {
 					    	<div className="main-content" style={layoutStyle}>
 							    <Route path="/user/users" component={Users}/>
 							    <Route path="/user/role" component={Role}/>
+							    <Route path="/content/channel" component={ContentList}/>
+							    <Route path="/channel" component={ChannelList}/>
 					    	</div>	
 						</Layout.Col>
 					</div></Router>
@@ -131,71 +214,6 @@ class BasicView extends React.Component {
 		)
 	}
 }
-
-const BasicExample = () => (
-  <Router>
-    <div>
-      <ul>
-        <li><Link to="/">Home</Link></li>
-        <li><Link to="/about">About</Link></li>
-        <li><Link to="/topics">Topics</Link></li>
-        <Button type="primary" >Hello</Button>
-      </ul>
-
-      <hr/>
-
-      <Route exact path="/" component={Home}/>
-      <Route path="/about" component={About}/>
-      <Route path="/topics" component={Topics}/>
-    </div>
-  </Router>
-)
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-)
-
-const About = () => (
-  <div>
-    <h2>About</h2>
-  </div>
-)
-
-const Topics = ({ match }) => (
-  <div>
-    <h2>Topics</h2>
-    <ul>
-      <li>
-        <Link to={`${match.url}/rendering`}>
-          Rendering with React
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/components`}>
-          Components
-        </Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>
-          Props v. State
-        </Link>
-      </li>
-    </ul>
-
-    <Route path={`${match.url}/:topicId`} component={Topic}/>
-    <Route exact path={match.url} render={() => (
-      <h3>Please select a topic.</h3>
-    )}/>
-  </div>
-)
-
-const Topic = ({ match }) => (
-  <div>
-    <h3>{match.params.topicId}</h3>
-  </div>
-)
 
 let layoutStyle = {
 	paddingLeft: '30px',
@@ -209,6 +227,6 @@ let breadStyle = {
 	paddingLeft: '30px'
 }
 
-ReactDOM.render(<BasicView />, document.getElementById('root'));
+ReactDOM.render(<BasicView />, document.getElementById('root'))
 
-serviceWorker.unregister();
+serviceWorker.unregister()

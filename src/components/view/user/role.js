@@ -1,5 +1,5 @@
 import React from 'react'
-import {Layout, Table} from 'element-react';
+import {Table} from 'element-react';
 
 export default class Users extends React.Component {
 	constructor(props) {
@@ -60,3 +60,5 @@ export default class Users extends React.Component {
 	    )
 	}
 }
+
+
