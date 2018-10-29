@@ -18,6 +18,8 @@ import ContentList from './components/view/content/channel.js'
 
 import ChannelList from './components/view/channel/list.js'
 
+import SiteList from './components/view/config/site/list.js'
+
 import {axiosProxy} from './tool.js'
 import api from './api.js'
 
@@ -116,6 +118,7 @@ class BasicView extends React.Component {
   		super(props)
 
   		this.state = {
+  			menuUnique: true,
   			siteLogo: '',
   			siteLists: [],
   			userName: '测试姓名',
@@ -167,7 +170,7 @@ class BasicView extends React.Component {
 					<Router><div>
 						<Layout.Col span="4">
 							<div id="side-menu">
-						    	<Menu defaultActive="1-1" className="el-menu-vertical-demo">
+						    	 <Menu defaultActive="1-1" className="el-menu-vertical-demo" uniqueOpened={this.state.menuUnique}>
 						          	<Menu.SubMenu index="1" title={<span><i className="el-icon-upload"></i>内容管理</span>}>
 							            <Menu.Item index="1-1"><Link to="/content/channel">栏目内容管理</Link></Menu.Item>
 							            <Menu.Item index="1-2"><Link to="/content/block">区块内容管理</Link></Menu.Item>
@@ -206,6 +209,7 @@ class BasicView extends React.Component {
 							    <Route path="/user/role" component={Role}/>
 							    <Route path="/content/channel" component={ContentList}/>
 							    <Route path="/channel" component={ChannelList}/>
+							    <Route path="/config/site" component={SiteList}/>
 					    	</div>	
 						</Layout.Col>
 					</div></Router>

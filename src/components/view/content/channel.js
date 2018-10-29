@@ -52,8 +52,7 @@ export default class ContentList extends React.Component {
 			    	width: 90,
 			    	render: (row, column, index) => {
 			    		return (
-			    			// <Input value={ row.weight } onBlur={this.getWeight.bind(this)} />
-			    			<Input value={ row.weight } />
+			    			<Input value={row.weight} onChange={this.getWeight.bind(this, index)} />
 			    		)
 			    	}
 			    },
@@ -164,9 +163,33 @@ export default class ContentList extends React.Component {
 		console.log(this)
 	}
 
-	getWeight (value) {
-		console.log('在这里拿输入框的权重值')
-		console.log(value)
+	getWeight (index, value) {
+		this.state.data[index].weight = value
+		let data1 = this.state.data
+		this.setState({
+			data: data1
+		})
+	}
+
+	saveWeight () {
+		let ids = this.getGroup()[0]
+		let weights = this.getGroup()[1]
+		let url = api.contentWeight + '?ids=' + ids + '&weights=' + weights
+		axiosProxy.put(url).then( res => {
+			if(res.data.errorCode === 0) {
+				console.log('这里保存权重成功了，要给个提示')
+				console.log(res)
+				this.refreshTable()
+			} else {
+				if(res.data.errorMessage) {
+					console.log('这里提示默认的错误信息')
+				} else {
+					console.log('这里提示自定义的错误信息')
+				}
+			}
+		}).catch( error => {
+			console.log(error)
+		})
 	}
 
 	currentChange (node) {
@@ -215,15 +238,18 @@ export default class ContentList extends React.Component {
 
 	getGroup () {
 		let idsArray = []
+		let weightsArray = []
 		for (let i in this.state.chosenTableItems) {
 			idsArray.push(this.state.chosenTableItems[i].id)
+			weightsArray.push(this.state.chosenTableItems[i].weight)
 		}
+		let weights = weightsArray.join(',')
 		let ids = idsArray.join(',')
-		return ids
+		return [ids, weights]
 	}
 
 	toggleTop (isTop) {
-		let ids = this.getGroup()
+		let ids = this.getGroup()[0]
 
 		let url = api.contentTop + '?ids=' + ids + '&isTop=' + isTop
 
@@ -261,7 +287,7 @@ export default class ContentList extends React.Component {
 	}
 
 	toggleOnline (lineStatus) {
-		let ids = this.getGroup()
+		let ids = this.getGroup()[0]
 		let url = api.contentOnline + '?status=' + lineStatus + '&ids=' + ids
 		axiosProxy.put(url).then( res => {
 			if(res.data.errorCode === 0) {
@@ -284,7 +310,7 @@ export default class ContentList extends React.Component {
 
 		if(this.state.chosenTableItems.length > 0) {
 			deleteButton = <Button>删除</Button>
-			weightButton = <Button>保存权重</Button>
+			weightButton = <Button onClick={ this.saveWeight.bind(this) }>保存权重</Button>
 			topButton = <Button onClick={ this.setTop.bind(this) }>置顶</Button>
 			cancelTopButton = <Button onClick={ this.cancelTop.bind(this) }>取消置顶</Button>
 			moveButton = <Button>移动</Button>

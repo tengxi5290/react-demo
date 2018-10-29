@@ -17,7 +17,7 @@ export default class ChannelTree extends React.Component {
 		}
 
 		this.options = {
-		    label: 'name',
+		    label: 'shortName',
 		    children: 'zones'
 		}
 		this.count = 1
@@ -27,7 +27,9 @@ export default class ChannelTree extends React.Component {
 		if(id === -1) {
 			id = 0
 		}
-		axiosProxy.get(api.contentChannel + '/' + id).then( res => {
+		axiosProxy.get(api.siteList).then( res => {
+			console.log('获取站点列表')
+			console.log(res)
 			if(res.data.errorCode === 0) {
 				setTimeout(() => {
 					let data = res.data.data
@@ -50,7 +52,7 @@ export default class ChannelTree extends React.Component {
 		if (node.level === 0) {
 	    	return resolve([
 	    		{
-	    			name: '根目录',
+	    			name: '',
 	    			id: -1,
 	    			disabled: true
 	    		}

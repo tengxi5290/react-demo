@@ -14,6 +14,7 @@ const api={
     contentTop: setAdminApi('/content/top'), // 内容置顶与取消置顶
     contentOnline: setAdminApi('/content/status'), // 内容上线与下线
     contentChannel: setAdminApi('/channel/list/content'), // 内容的栏目树
+    contentWeight: setAdminApi('/content/weight'), // 保存内容权重
 }
 
 export default api;
