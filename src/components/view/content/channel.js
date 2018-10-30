@@ -159,8 +159,6 @@ export default class ContentList extends React.Component {
 
     componentDidMount () {
 		this.getContentList(this.state.currentPage, this.state.pageSize, this.state.currentChannel)
-		console.log('看看能不能找到路径面包')
-		console.log(this)
 	}
 
 	getWeight (index, value) {
@@ -178,7 +176,6 @@ export default class ContentList extends React.Component {
 		axiosProxy.put(url).then( res => {
 			if(res.data.errorCode === 0) {
 				console.log('这里保存权重成功了，要给个提示')
-				console.log(res)
 				this.refreshTable()
 			} else {
 				if(res.data.errorMessage) {

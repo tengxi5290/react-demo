@@ -8,6 +8,14 @@ let  axiosProxy= axios.create({
     withCredentials:true,
 })
 
+let axiosProxyFiles = axios.create({
+  	headers: {
+    	'X-Requested-With': 'XMLHttpRequest',
+    	'Content-Type': 'multipart/form-data'
+  	},
+  	withCredentials:true,
+})
+
 let timestampToTime = function (timestamp) {
 	var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
 	var Y = date.getFullYear() + '-';
@@ -21,5 +29,6 @@ let timestampToTime = function (timestamp) {
 
 export {
     axiosProxy,
+    axiosProxyFiles,
     timestampToTime
 }

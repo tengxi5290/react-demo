@@ -1,0 +1,41 @@
+.uploader {
+    position: relative;
+}
+
+.uploader-container {
+    background-color: #fbfdff;
+    border: 1px dashed #c0ccda;
+    border-radius: 6px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 148px;
+    height: 148px;
+    line-height: 146px;
+    vertical-align: top;
+    text-align: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.uploader .uploader-container i {
+    font-size: 28px;
+    color: #8c939d;
+}
+
+.uploader-action {
+    position: absolute;
+    top: 0;
+    opacity: 0;
+    display: block;
+    width: 148px;
+    height: 148px!important;
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.show {
+    visibility: visible;
+}

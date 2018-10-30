@@ -9,3 +9,7 @@
 .el-tree {
 	border: none;
 }
+
+.half-width-form {
+	width: 50%;
+}

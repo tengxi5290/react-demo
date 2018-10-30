@@ -19,6 +19,7 @@ import ContentList from './components/view/content/channel.js'
 import ChannelList from './components/view/channel/list.js'
 
 import SiteList from './components/view/config/site/list.js'
+import SiteEdit from './components/view/config/site/edit.js'
 
 import {axiosProxy} from './tool.js'
 import api from './api.js'
@@ -209,7 +210,9 @@ class BasicView extends React.Component {
 							    <Route path="/user/role" component={Role}/>
 							    <Route path="/content/channel" component={ContentList}/>
 							    <Route path="/channel" component={ChannelList}/>
-							    <Route path="/config/site" component={SiteList}/>
+							    <Route exact path="/config/site" component={SiteList}/>
+							    <Route path="/config/site/edit" component={SiteEdit}/>
+							    <Route path="/config/site/add" component={SiteEdit}/>
 					    	</div>	
 						</Layout.Col>
 					</div></Router>

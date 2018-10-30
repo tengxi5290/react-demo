@@ -28,8 +28,6 @@ export default class ChannelTree extends React.Component {
 			id = 0
 		}
 		axiosProxy.get(api.siteList).then( res => {
-			console.log('获取站点列表')
-			console.log(res)
 			if(res.data.errorCode === 0) {
 				setTimeout(() => {
 					let data = res.data.data
@@ -52,15 +50,25 @@ export default class ChannelTree extends React.Component {
 		if (node.level === 0) {
 	    	return resolve([
 	    		{
-	    			name: '',
+	    			shortName: '所有站点',
 	    			id: -1,
 	    			disabled: true
 	    		}
 	    	])
 	  	}
 
-	  	if(node.level >= 1) {
-			this.getTreeNodes(node.data.id, resolve)
+	  	if(node.level === 1) {
+	  		this.getTreeNodes(node.data.id, resolve)
+	  	}
+
+	  	if(node.level > 1) {
+	  		if(node.childNodes.length > 0) {
+	  			this.getTreeNodes(node.data.id, resolve)
+	  		} else {
+	  			node.isLeaf = true
+	  			node.loaded = true
+	  			node.loading = false
+	  		}
 	  	}
 	}
 

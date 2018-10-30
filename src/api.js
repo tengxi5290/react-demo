@@ -15,6 +15,8 @@ const api={
     contentOnline: setAdminApi('/content/status'), // 内容上线与下线
     contentChannel: setAdminApi('/channel/list/content'), // 内容的栏目树
     contentWeight: setAdminApi('/content/weight'), // 保存内容权重
+
+    uploadPicture: setAdminApi('/upload/1'), // 上传单张图片
 }
 
 export default api;
