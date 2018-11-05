@@ -24,6 +24,8 @@ import SiteEdit from './components/view/config/site/edit.js'
 import ModelList from './components/view/config/model/list.js'
 import ModelItems from './components/view/config/model/modelItem/list.js'
 
+import StorageList from './components/view/config/storage/list.js'
+
 import {axiosProxy} from './tool.js'
 import api from './api.js'
 
@@ -220,6 +222,7 @@ class BasicView extends React.Component {
 							    <Route path="/config/site/add" component={SiteEdit}/>
 							    <Route exact path="/config/model" component={ModelList}/>
 							    <Route path="/config/model/items" component={ModelItems}/>
+							    <Route path="/config/storage" component={StorageList}/>
 					    	</div>	
 						</Layout.Col>
 					</div></Router>

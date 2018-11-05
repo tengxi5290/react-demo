@@ -20,6 +20,8 @@ const api = {
 
     modelList: setAdminApi('/content/model/list'), // 模型列表
     modelItemsList: setAdminApi('/content/modelItem/list'), // 获取模型项
+
+    storageList: setAdminApi('/storage/list'), // 获取存储列表
 }
 
 export default api;
