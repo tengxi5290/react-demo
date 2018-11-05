@@ -49,7 +49,7 @@ export default class Uploader extends React.Component {
 
 	render() {
 		let icon 
-		if(this.state.imageUrl != '') {
+		if(this.state.imageUrl !== '') {
 			icon = ''
 		} else {
 			icon = <i className="el-icon-plus"></i>

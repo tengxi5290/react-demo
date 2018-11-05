@@ -3,7 +3,7 @@ function setAdminApi(path) {
     return global+path;
 }
 
-const api={
+const api = {
     userList: setAdminApi('/user/list'), // 获取用户列表
     user: setAdminApi('/user'), // 用户详情
     siteList: setAdminApi('/site/user/list'), // 用户下的站点列表
@@ -17,6 +17,9 @@ const api={
     contentWeight: setAdminApi('/content/weight'), // 保存内容权重
 
     uploadPicture: setAdminApi('/upload/1'), // 上传单张图片
+
+    modelList: setAdminApi('/content/model/list'), // 模型列表
+    modelItemsList: setAdminApi('/content/modelItem/list'), // 获取模型项
 }
 
 export default api;

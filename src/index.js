@@ -21,8 +21,13 @@ import ChannelList from './components/view/channel/list.js'
 import SiteList from './components/view/config/site/list.js'
 import SiteEdit from './components/view/config/site/edit.js'
 
+import ModelList from './components/view/config/model/list.js'
+import ModelItems from './components/view/config/model/modelItem/list.js'
+
 import {axiosProxy} from './tool.js'
 import api from './api.js'
+
+import Button from 'antd/lib/button';
 
 
 import './commonStyle/commonHeader.css'
@@ -213,6 +218,8 @@ class BasicView extends React.Component {
 							    <Route exact path="/config/site" component={SiteList}/>
 							    <Route path="/config/site/edit" component={SiteEdit}/>
 							    <Route path="/config/site/add" component={SiteEdit}/>
+							    <Route exact path="/config/model" component={ModelList}/>
+							    <Route path="/config/model/items" component={ModelItems}/>
 					    	</div>	
 						</Layout.Col>
 					</div></Router>

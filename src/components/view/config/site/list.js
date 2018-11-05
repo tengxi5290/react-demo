@@ -5,7 +5,7 @@ import {axiosProxy} from './../../../../tool.js'
 
 import SiteTree from './../../../common/siteTree.js'
 
-export default class SiteList extends React.Component {
+export default class ModelList extends React.Component {
 	constructor(props) {
   	super(props);
 
@@ -53,7 +53,7 @@ export default class SiteList extends React.Component {
 	}
 
 	changeChannel (value) {
-		if(value.id != -1) {
+		if(value.id !== -1) {
 			let siteId = value.id
 			this.props.history.push({
 		        pathname: '/config/site/edit',
