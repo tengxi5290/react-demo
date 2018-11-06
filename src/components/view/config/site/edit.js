@@ -1,5 +1,5 @@
 import React from 'react'
-import {Layout, Button, Form, Input, Radio} from 'element-react'
+import {Layout, Button, Form, Input, Radio, Message} from 'element-react'
 import api from './../../../../api.js'
 import {axiosProxy} from './../../../../tool.js'
 
@@ -66,9 +66,15 @@ export default class SiteEdit extends React.Component {
 				})
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					Message({
+						message: res.data.errorMessage,
+						type: 'error'
+					})
 				} else {
-					console.log('这里提示自定义的错误信息')
+					Message({
+						message: '操作失败',
+						type: 'error'
+					})
 				}
 			}
 		}).catch( error => {

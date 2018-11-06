@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Button, Checkbox, Input } from 'antd'
+import { Table, Button, Checkbox, Input, message } from 'antd'
 
 import api from './../../../../../api.js'
 import {axiosProxy, getUrlParams} from './../../../../../tool.js'
@@ -136,9 +136,9 @@ export default class ModelItems extends React.Component {
 				}
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					message.error(res.data.errorMessage)
 				} else {
-					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
 				}
 			}
 		}).catch( error => {
@@ -159,8 +159,6 @@ export default class ModelItems extends React.Component {
 
 	    const rowSelection = {
 			onChange: (selectedRowKeys, selectedRows) => {
-			    console.log('拿到的选中项')
-			    console.log(selectedRows)
 			    if(selectedRows.length > 0) {
 			    	this.state.buttonEnable = true
 			    } else {

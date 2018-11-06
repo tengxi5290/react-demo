@@ -1,5 +1,5 @@
 import React from 'react'
-import { Table, Divider, Tag, Input, Checkbox, Button } from 'antd'
+import { Table, Divider, Tag, Input, Checkbox, Button, message } from 'antd'
 
 import api from './../../../../api.js'
 import {axiosProxy} from './../../../../tool.js'
@@ -100,8 +100,10 @@ export default class ModelList extends React.Component {
 			} else {
 				if(res.data.errorMessage) {
 					console.log('这里提示默认的错误信息')
+					message.error(res.data.errorMessage)
 				} else {
 					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
 				}
 			}
 		}).catch( error => {

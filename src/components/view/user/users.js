@@ -1,5 +1,5 @@
 import React from 'react'
-import {Layout, Table, Button, Icon, Dialog} from 'element-react'
+import {Layout, Table, Button, Icon, Dialog, Message} from 'element-react'
 import api from './../../../api.js'
 import {axiosProxy} from './../../../tool.js'
 
@@ -130,9 +130,15 @@ export default class Users extends React.Component {
 	    		})
     		} else {
     			if(res.data.errorMessage) {
-    				console.log('这里要alert错误')
+    				Message({
+    					message: res.data.errorMessage,
+    					type: 'error'
+    				})
     			} else {
-    				console.log('这里要alert默认的错误')
+    				Message({
+    					message: '操作失败',
+    					type: 'error'
+    				})
     			}
     		}
     	}).catch (error => {

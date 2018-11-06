@@ -1,5 +1,6 @@
 import React from 'react'
-import {Layout, Table, Button, Icon, Input} from 'element-react'
+import { Layout, Table, Button, Icon, Input, Message } from 'element-react'
+import { message } from 'antd'
 import api from './../../../api.js'
 import {axiosProxy, timestampToTime} from './../../../tool.js'
 
@@ -149,9 +150,9 @@ export default class ContentList extends React.Component {
 				})
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					message.error(res.data.errorMessage)
 				} else {
-					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
 				}
 			}
 		})
@@ -175,13 +176,17 @@ export default class ContentList extends React.Component {
 		let url = api.contentWeight + '?ids=' + ids + '&weights=' + weights
 		axiosProxy.put(url).then( res => {
 			if(res.data.errorCode === 0) {
-				console.log('这里保存权重成功了，要给个提示')
+				// message.success('操作成功')
+				Message({
+				    message: '恭喜你,操作成功',
+				    type: 'success'
+				});
 				this.refreshTable()
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					message.error(res.data.errorMessage)
 				} else {
-					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
 				}
 			}
 		}).catch( error => {
@@ -252,13 +257,16 @@ export default class ContentList extends React.Component {
 
 		axiosProxy.put(url).then( res => {
 			if(res.data.errorCode === 0) {
-				console.log('这里应该是置顶成功了或是取消置顶成功了,得提醒一下')
+				Message ({
+					message: '操作成功',
+					type: 'success'
+				})
 				this.refreshTable()
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					message.error(res.data.errorMessage)
 				} else {
-					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
 				}
 			}
 		}).catch( error => {
@@ -288,13 +296,13 @@ export default class ContentList extends React.Component {
 		let url = api.contentOnline + '?status=' + lineStatus + '&ids=' + ids
 		axiosProxy.put(url).then( res => {
 			if(res.data.errorCode === 0) {
-				console.log('这里是上线下线操作完成了,要有操作成功的提示')
+				message.success('操作成功')
 				this.refreshTable()
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					message.error(res.data.errorMessage)
 				} else {
-					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
 				}
 			}
 		}).catch( error => {

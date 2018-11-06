@@ -7,7 +7,7 @@ import {
   Link
 } from 'react-router-dom'
 import 'element-theme-default'
-import {Layout, Menu, MessageBox} from 'element-react'
+import {Layout, Menu, MessageBox, Message} from 'element-react'
 
 import Users from './components/view/user/users.js'
 import Role from './components/view/user/role.js'
@@ -55,9 +55,15 @@ class BasicView extends React.Component {
 				this.getUserSitesList()
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					Message({
+						message: res.data.errorMessage,
+						type: 'error'
+					})
 				} else {
-					console.log('这里提示自定义的错误信息')
+					Message({
+						message: '操作失败',
+						type: 'error'
+					})
 				}
 			}
 		}).catch(error => {
@@ -74,9 +80,15 @@ class BasicView extends React.Component {
 				})
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					Message({
+						message: res.data.errorMessage,
+						type: 'error'
+					})
 				} else {
-					console.log('这里提示自定义的错误信息')
+					Message({
+						message: '操作失败',
+						type: 'error'
+					})
 				}
 			}
 		}).catch (error => {
@@ -93,9 +105,15 @@ class BasicView extends React.Component {
 				})
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
+					Message({
+						message: res.data.errorMessage,
+						type: 'error'
+					})
 				} else {
-					console.log('这里提示自定义的错误信息')
+					Message({
+						message: '操作失败',
+						type: 'error'
+					})
 				}
 			}
 		}).catch( error => {
