@@ -1,5 +1,7 @@
 import React from 'react'
-import { Table, Divider, Tag, Input, Checkbox, Button, message } from 'antd'
+import { Table, Divider, Tag, Input, Checkbox, Button, message, Modal } from 'antd'
+
+import WrappedForm from './../../../common/form.js'
 
 import api from './../../../../api.js'
 import {axiosProxy} from './../../../../tool.js'
@@ -9,6 +11,10 @@ export default class ModelList extends React.Component {
   		super(props);
 
   		this.state = {
+  			formType: '',
+  			visible: false,
+
+  			currentTableRow: {},
 		    data: [],
 		    columns: [{
 			  	title: '名称',
@@ -53,8 +59,6 @@ export default class ModelList extends React.Component {
 	}
 
 	toggleEnable (value, index) {
-		console.log(value)
-		console.log(index)
 		this.state.data[index].enable = !value
 		this.setState({
 			data: this.state.data
@@ -69,22 +73,24 @@ export default class ModelList extends React.Component {
 	}
 
 	toDetail (record, index) {
-		console.log('这里是点击详情按钮')
-		console.log(record)
-		console.log(index)
+		this.setState({
+			visible: true,
+			formType: 'detail',
+			currentTableRow: record
+		})
 	}
 
 	toEdit (record, index) {
-		console.log('这里是点击编辑的按钮')
-		console.log(record)
-		console.log(index)
+		this.setState({
+			visible: true,
+			formType: 'edit',
+			currentTableRow: record
+		})
 	}
 
 	getStorageList () {
 		axiosProxy.get(api.storageList).then( res => {
 			if(res.data.errorCode === 0) {
-				console.log('这是拿到的存储列表')
-				console.log(res)
 				let datas = res.data.data
 				for (let i in datas) {
 					datas[i].key = i
@@ -99,10 +105,55 @@ export default class ModelList extends React.Component {
 				})
 			} else {
 				if(res.data.errorMessage) {
-					console.log('这里提示默认的错误信息')
 					message.error(res.data.errorMessage)
 				} else {
-					console.log('这里提示自定义的错误信息')
+					message.error('操作失败')
+				}
+			}
+		}).catch( error => {
+			console.log(error)
+		})
+	}
+
+	handleOk () {
+		this.setState({
+			visible: false
+		})
+	}
+
+	handleCancel () {
+		this.setState({
+			visible: false
+		})
+	}
+
+	formCallback (value, type) {
+		if(type === 'reset') {
+			console.log('这是点了重置按钮')
+		} else if(type === 'edit') {
+			console.log('这是返回了表单内容')
+			this.updateStorage(value)
+		} else if (type === 'oss') {
+			console.log('这是更新oss详情配置')
+		} else if (type === 'ftp') {
+			console.log('这是更新ftp详情配置')
+		}
+		this.setState({
+			visible: false
+		})
+	}
+
+	updateStorage (obj) {
+		axiosProxy.put(api.storageUpdate, obj).then( res => {
+			if (res.data.errorCode === 0) {
+				message.success('操作成功')
+				setTimeout (() => {
+					this.getStorageList()
+				}, 500)
+			} else {
+				if(res.data.errorMessage) {
+					message.error(res.data.errorMessage)
+				} else {
 					message.error('操作失败')
 				}
 			}
@@ -115,6 +166,16 @@ export default class ModelList extends React.Component {
 	    return (
 	      	<div>
 		        <Table columns={this.state.columns} dataSource={this.state.data} pagination={false} />
+		        <Modal
+		        	footer={null}
+	                title="编辑配置"
+	                onCancel={this.handleCancel.bind(this)}
+	                destroyOnClose={true}
+	                visible={this.state.visible}
+	                width={800}>
+
+	                <WrappedForm type={this.state.formType} element={this.state.currentTableRow} callback={this.formCallback.bind(this)} />
+	            </Modal>
 	        </div>
 		)
   	}

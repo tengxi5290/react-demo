@@ -22,6 +22,9 @@ const api = {
     modelItemsList: setAdminApi('/content/modelItem/list'), // 获取模型项
 
     storageList: setAdminApi('/storage/list'), // 获取存储列表
+    storageUpdate: setAdminApi('/storage/update'), // 修改存储配置
+    storageFtpInfo: setAdminApi('/storage/ftp'), // ftp详情
+    storageOssInfo: setAdminApi('/storage/oss'), // oss详情
 }
 
 export default api;
