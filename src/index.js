@@ -134,7 +134,7 @@ class BasicView extends React.Component {
 		    type: 'warning'
 		}).then(() => {
 		    window.localStorage.clear()
-		    window.open('http://cms.cnlive.com:8768/logout', '_self')
+		    window.open('http://cmstest.cnlive.com:8768/logout', '_self')
 		}).catch(() => {
 		    console.log('已取消')
 	  	})

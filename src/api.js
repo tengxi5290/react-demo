@@ -1,5 +1,5 @@
 function setAdminApi(path) {
-    let global='http://cms.cnlive.com:8768';
+    let global='http://cmstest.cnlive.com:8768';
     return global+path;
 }
 
